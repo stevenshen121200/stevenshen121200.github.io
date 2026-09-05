@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" role="img" aria-label="Portrait placeholder">
+  <rect width="400" height="500" fill="#e6e2da"/>
+  <rect x="0" y="0" width="8" height="500" fill="#3a5568"/>
+  <text x="36" y="56" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" letter-spacing="0.18em" fill="#3a5568">HEADSHOT</text>
+  <text x="36" y="250" font-family="Georgia, 'Times New Roman', serif" font-size="42" fill="#1a1c1e">CYS</text>
+  <text x="36" y="460" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#5e6268">Replace assets/portrait.svg</text>
+</svg>
