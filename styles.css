@@ -1,12 +1,12 @@
 :root {
-  --bg: #f4f2ed;
-  --paper: #fbfaf7;
+  --bg: #c8c9cb;
+  --paper: #c8c9cb;
   --ink: #1a1c1e;
   --muted: #5e6268;
   --accent: #3a5568;
-  --accent-soft: #dfe6eb;
-  --line: #d8d4cb;
-  --chip: #ece9e2;
+  --accent-soft: #d2d3d5;
+  --line: #b0b2b5;
+  --chip: #bcbec0;
   --max: 52rem;
   --wide: 64rem;
 }
@@ -19,12 +19,22 @@
 
 html {
   scroll-behavior: smooth;
+  min-height: 100%;
+  background-color: #fff;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.7)),
+    url("assets/bg-optics.jpg");
+  background-size: cover;
+  background-position: center 28%;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 body {
   margin: 0;
+  min-height: 100%;
   color: var(--ink);
-  background: var(--bg);
+  background: rgba(255, 255, 255, 0.28);
   font-family: "Source Sans 3", "Segoe UI", sans-serif;
   font-size: 1.0625rem;
   line-height: 1.6;
@@ -64,7 +74,7 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(244, 242, 237, 0.92);
+  background: rgba(200, 201, 203, 0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -119,12 +129,15 @@ a:hover {
   scroll-margin-top: 4rem;
 }
 
-.hero-grid {
+.hero-inner {
   width: min(var(--wide), calc(100% - 2rem));
   margin: 0 auto;
+}
+
+.hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 13.5rem;
-  gap: 2.5rem;
+  grid-template-columns: minmax(0, 1fr) 15.5rem;
+  gap: 2.75rem;
   align-items: start;
 }
 
@@ -137,35 +150,20 @@ a:hover {
   color: var(--accent);
 }
 
-h1 {
-  margin: 0 0 0.75rem;
-  font-size: clamp(1.7rem, 4vw, 2.85rem);
+.hero h1 {
+  margin: 0 0 1.35rem;
+  font-size: clamp(1.7rem, 3.6vw, 2.35rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  overflow-wrap: break-word;
-}
-
-.lede {
-  margin: 0 0 1.25rem;
-  max-width: 40rem;
-  color: var(--muted);
-  font-size: 1.15rem;
-}
-
-.meta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
-  margin: 0 0 1.4rem;
-  color: var(--muted);
-  font-size: 0.98rem;
+  white-space: nowrap;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem 1.1rem;
+  margin-top: 0.4rem;
 }
 
 .btn {
@@ -198,8 +196,8 @@ h1 {
 
 .portrait {
   margin: 0;
-  border: 1px solid var(--line);
-  background: var(--paper);
+  justify-self: end;
+  width: 100%;
 }
 
 .portrait img {
@@ -207,6 +205,16 @@ h1 {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   object-position: center 20%;
+}
+
+.portrait figcaption {
+  display: grid;
+  gap: 0.12rem;
+  margin-top: 0.7rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  text-align: center;
 }
 
 section {
@@ -263,7 +271,7 @@ h2 {
   padding: 0.45rem;
   object-fit: contain;
   object-position: center;
-  background: #ece9e2;
+  background: var(--paper);
   box-sizing: border-box;
 }
 
