@@ -1,95 +1,68 @@
 (function () {
-  const navLinks = document.querySelectorAll(".site-nav a[href^='#']");
-  const sections = Array.from(navLinks)
-    .map(function (link) {
-      return document.querySelector(link.getAttribute("href"));
-    })
-    .filter(Boolean);
-
-  function setActiveNav() {
-    const fromTop = window.scrollY + 96;
-    let current = sections[0];
-    sections.forEach(function (section) {
-      if (section.offsetTop <= fromTop) current = section;
-    });
-    navLinks.forEach(function (link) {
-      link.classList.toggle("is-active", link.getAttribute("href") === "#" + current.id);
-    });
-  }
-
-  window.addEventListener("scroll", setActiveNav, { passive: true });
-  setActiveNav();
-
   const listEl = document.getElementById("pub-list");
-  const countEl = document.getElementById("pub-count");
-  const filters = document.querySelectorAll(".filter");
   const publications = window.PUBLICATIONS || [];
-  let activeFilter = "all";
 
-  function matches(pub, filter) {
-    if (filter === "all") return true;
-    if (filter === "first") return pub.firstAuthor;
-    return pub.tags.indexOf(filter) !== -1;
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (char) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+    });
   }
 
   function highlightName(authors) {
-    return authors.replace(
+    return escapeHtml(authors).replace(
       /C\.-Y\. Shen/g,
       "<strong>C.-Y. Shen</strong>"
     );
   }
 
-  function render() {
-    const items = publications.filter(function (pub) {
-      return matches(pub, activeFilter);
-    });
-    countEl.textContent = items.length + " item" + (items.length === 1 ? "" : "s");
-    listEl.innerHTML = "";
-
-    let lastYear = null;
-    items.forEach(function (pub) {
-      if (pub.year !== lastYear) {
-        const year = document.createElement("div");
-        year.className = "year-label";
-        year.textContent = String(pub.year);
-        listEl.appendChild(year);
-        lastYear = pub.year;
-      }
-
-      const article = document.createElement("article");
-      article.className = "pub-item";
-      const badge = pub.firstAuthor ? '<span class="badge">First author</span>' : "";
-      article.innerHTML =
-        '<div class="title"><a href="' +
-        pub.url +
-        '" target="_blank" rel="noopener noreferrer">' +
-        pub.title +
-        "</a>" +
-        badge +
-        "</div>" +
-        '<div class="authors">' +
-        highlightName(pub.authors) +
-        "</div>" +
-        '<div class="venue">' +
-        pub.venue +
-        " " +
-        pub.issue +
-        "</div>";
-      listEl.appendChild(article);
-    });
+  function renderPublications() {
+    if (!listEl) return;
+    const recent = publications.slice(0, 8);
+    listEl.innerHTML = recent
+      .map(function (pub) {
+        return (
+          '<div class="pub">' +
+          highlightName(pub.authors) +
+          '. <a href="' +
+          escapeHtml(pub.url) +
+          '" target="_blank" rel="noopener noreferrer">"' +
+          escapeHtml(pub.title) +
+          '"</a>. <span class="venue">' +
+          escapeHtml(pub.venue) +
+          "</span> (" +
+          escapeHtml(pub.year) +
+          ").</div>"
+        );
+      })
+      .join("");
   }
 
-  filters.forEach(function (button) {
-    button.addEventListener("click", function () {
-      activeFilter = button.getAttribute("data-filter");
-      filters.forEach(function (other) {
-        const on = other === button;
-        other.classList.toggle("is-active", on);
-        other.setAttribute("aria-pressed", on ? "true" : "false");
-      });
-      render();
-    });
-  });
+  async function updateScholarStats() {
+    const citationsEl = document.getElementById("total-citations");
+    const hIndexEl = document.getElementById("h-index");
+    if (!citationsEl || !hIndexEl) return;
 
-  render();
+    const scholarUrl =
+      "https://scholar.google.com/citations?user=XcXcmNsAAAAJ&hl=en";
+    const proxyUrl =
+      "https://api.allorigins.win/get?url=" + encodeURIComponent(scholarUrl);
+
+    try {
+      const response = await fetch(proxyUrl);
+      if (!response.ok) return;
+      const data = await response.json();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data.contents, "text/html");
+      const stats = doc.querySelectorAll(".gsc_rsb_std");
+      if (stats.length >= 3) {
+        citationsEl.textContent = stats[0].textContent.trim();
+        hIndexEl.textContent = stats[2].textContent.trim();
+      }
+    } catch (error) {
+      // Leave placeholders if Scholar is unreachable.
+    }
+  }
+
+  renderPublications();
+  updateScholarStats();
 })();
