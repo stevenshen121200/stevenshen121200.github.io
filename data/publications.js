@@ -1,6 +1,16 @@
 window.PUBLICATIONS = [
   {
     year: 2026,
+    title: "Optical Fourier surfaces for free-space computer-generated holography",
+    authors: "Y. M. Glauser, C.-Y. Shen, D. B. Seda, C. Isil, P. B. Eberhard, H. Niese, et al.",
+    venue: "ACS Nano",
+    issue: "20, 29091–29101",
+    firstAuthor: false,
+    tags: ["display"],
+    url: "https://doi.org/10.1021/acsnano.6c13095"
+  },
+  {
+    year: 2026,
     title: "Wavelength-multiplexed diffractive optical information storage and image projection",
     authors: "C.-Y. Shen, Y. Li, C. Isil, J. Li, L. Lenk, T. Gan, G. Ma, F. O. Ardic, M. Jarrahi, A. Ozcan",
     venue: "Advanced Photonics",
@@ -58,16 +68,6 @@ window.PUBLICATIONS = [
     firstAuthor: false,
     tags: ["imaging"],
     url: "https://arxiv.org/abs/2608.04582"
-  },
-  {
-    year: 2026,
-    title: "Optical Fourier surfaces for free-space computer-generated holography",
-    authors: "Y. M. Glauser, C.-Y. Shen, D. B. Seda, C. Isil, P. B. Eberhard, H. Niese, et al.",
-    venue: "arXiv",
-    issue: "2607.09307",
-    firstAuthor: false,
-    tags: ["display"],
-    url: "https://arxiv.org/abs/2607.09307"
   },
   {
     year: 2025,
